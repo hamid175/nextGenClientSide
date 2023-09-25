@@ -10,4 +10,5 @@ export const nonAuthProtectedRoutes = [
 
 export const authProtectedRoutes = [
     {path: "/home", component: <Home/>},
+    {path: "/*", component: <Home/>},
 ]

@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { questions_list } from "../utils";
 
 const Home = () => {
+
+  const [questions, setQuestions] = useState(questions_list);
+
+
   const dummyQuestions = [
     {
       positive: "People do not like work and avoid it as much as possible.",
@@ -38,16 +43,16 @@ const Home = () => {
 
       {/* questoin sections */}
       <div className="questions-container">
-        {dummyQuestions?.map((ques, idx) => {
+        {questions?.map((question, idx) => {
        return (
           <div className="question">
             <p className="text-center table-title">
-              People are interested in their work.
+              {question.question}
             </p>
             <div className="d-flex gap-4 justify-content-between">
               <div className=" left-question">
-                <p className="title-400 text-end m-0 p-0">
-                  {ques.positive} 
+                <p className="title-400 text-start m-0 p-0">
+                  {question.negative} 
                 </p>
               </div>
               <div className=" d-flex ">
@@ -55,7 +60,7 @@ const Home = () => {
                   <input
                     className="custom-radio-1"
                     type="radio"
-                    name={`question${idx}`}
+                    name={`question${question?.id}`}
                     
                   />
                 </div>
@@ -63,7 +68,7 @@ const Home = () => {
                   <input
                     className="custom-radio-2 "
                     type="radio"
-                    name={`question${idx}`}
+                    name={`question${question?.id}`}
 
                   />
                 </div>
@@ -71,7 +76,7 @@ const Home = () => {
                   <input
                     className="custom-radio-3 "
                     type="radio"
-                    name={`question${idx}`}
+                    name={`question${question?.id}`}
                     
                   />
                 </div>
@@ -79,7 +84,7 @@ const Home = () => {
                   <input
                     className="custom-radio-4 "
                     type="radio"
-                    name={`question${idx}`}
+                    name={`question${question?.id}`}
                     
                     
                   />
@@ -88,7 +93,7 @@ const Home = () => {
                   <input
                     className="custom-radio-3 "
                     type="radio"
-                    name={`question${idx}`}
+                    name={`question${question?.id}`}
                     
                     
                   />
@@ -97,7 +102,7 @@ const Home = () => {
                   <input
                     className="custom-radio-2 "
                     type="radio"
-                    name={`question${idx}`}
+                    name={`question${question?.id}`}
                     
                   />
                 </div>
@@ -105,7 +110,7 @@ const Home = () => {
                   <input
                     className="custom-radio-1 radio-input"
                     type="radio"
-                    name={`question${idx}`}
+                    name={`question${question?.id}`}
             
                   />
                 </div>
@@ -113,8 +118,9 @@ const Home = () => {
               <div className="left-question">
                 {" "}
                 <p className="title-400">
-                  People are interested in their work and need it to flourish.
-                  In good conditions, they enjoy it.
+                  {
+                    question?.positive
+                  }
                 </p>
               </div>
             </div>
