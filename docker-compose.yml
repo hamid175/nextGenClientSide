@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  docker-test:
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile.dev
+    # env_file:
+    #   - ./.env
+    # container_name: dockertestcont
+    # image: dokcertest:tag
+    
