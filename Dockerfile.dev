@@ -3,7 +3,7 @@
 FROM node:alpine3.18 as build
 WORKDIR /react/next-gen
 COPY ./package.json /react/next-gen
-RUN npm install
+RUN npm install --legacy-peer-deps
 COPY . /react/next-gen
 
 CMD [ "npm","start" ]
