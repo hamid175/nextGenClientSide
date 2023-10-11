@@ -13,7 +13,6 @@ const AuthLayout = ({ children }) => {
   return (
     <React.Fragment>
       <div className="d-flex w-100">
-        
         <div className="col-12 ">
           <Navbar />
           <Wrapper>{children}</Wrapper>

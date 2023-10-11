@@ -46,6 +46,9 @@ code {
     background-color: var(--btn-primary-hover) !important;
   }
 }
+.btn-fade{
+  opacity: 60%;
+}
 .success-btn {
   font-size: 10px !important;
   background-color: rgba(10, 179, 156, 0.16) !important;
@@ -364,52 +367,67 @@ code {
   justify-content: end;
 }
 
-
-
-
-input:where([type="radio"]){
-  -webkit-appearance : none;
-  appearance         : none;
-  width              : 22px;
-  height             : 22px;
-  margin             : calc(0.75em - 11px) 0.25rem 0 0;
-  vertical-align     : top;
-  border             : 0px solid #ddd;
-  border-radius      : 4px;
-  background         : var(--grey-100) no-repeat center center;
+input:where([type="radio"]) {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  margin: calc(0.75em - 11px) 0.25rem 0 0;
+  vertical-align: top;
+  border: 0px solid #ddd;
+  border-radius: 4px;
+  background: var(--grey-100) no-repeat center center;
 }
 
-input[type="radio"]{
-  border-radius : 50%;
+input[type="radio"] {
+  border-radius: 50%;
 }
 
-input:where([type="checkbox"], [type="radio"]):where(:active:not(:disabled), :focus){
-  border-color : #696;
-  outline      : none;
+input:where([type="checkbox"], [type="radio"]):where(
+    :active:not(:disabled),
+    :focus
+  ) {
+  border-color: #696;
+  outline: none;
 }
 
-input:where([type="checkbox"], [type="radio"]):disabled{
-  background : #eee;
+input:where([type="checkbox"], [type="radio"]):disabled {
+  background: #eee;
 }
 
-input[type="checkbox"]:checked{
-  background-color: #66B700;
+input[type="checkbox"]:checked {
+  background-color: #66b700;
   /* background-image : url('checkbox.svg'); */
 }
 
-input[type="radio"]:checked{
-  background-color: #66B700;
-opacity: 40%;
+input[type="radio"]:checked {
+  background-color: #66b700;
   /* background-image : url('radio.svg'); */
 }
-
 
 .custom-radio-1 {
   width: 32px;
   height: 32px;
   cursor: pointer;
   /* accent-color: #638d31 !important; */
+}
 
+.danger:checked {
+  background-color: #F32013 !important;
+}
+.opacity-3:checked {
+  opacity: 60%;
+}
+
+.opacity-2:checked {
+  opacity: 50%;
+}
+
+.opacity-1:checked {
+  opacity: 40%;
+}
+.opacity:checked {
+  opacity: 30%;
 }
 
 .custom-radio-2 {
@@ -417,7 +435,6 @@ opacity: 40%;
   height: 24px;
   cursor: pointer;
   /* accent-color: #66B700 !important; */
-
 }
 
 .custom-radio-3 {
@@ -425,7 +442,6 @@ opacity: 40%;
   height: 20px;
   cursor: pointer;
   /* accent-color: #66B700 !important; */
-
 }
 
 .custom-radio-4 {
@@ -433,15 +449,12 @@ opacity: 40%;
   height: 16px;
   cursor: pointer;
   /* accent-color: #66B700 !important; */
-} 
-
-
-
+}
 
 /* range slider color */
-.rangeslider__fill{
-  background-color: #6ADA7D !important;
+.rangeslider__fill {
+  background-color: #6ada7d !important;
 }
-.rangeslider__handle{
+.rangeslider__handle {
   display: none !important;
 }
