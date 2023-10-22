@@ -1,9 +1,7 @@
 #node block
-
-FROM node:alpine3.18 as build
-WORKDIR /react/next-gen
-COPY ./package.json /react/next-gen
-RUN npm install --legacy-peer-deps
-COPY . /react/next-gen
-
-CMD [ "npm","start" ]
+FROM node:alpine3.18 as nodework
+WORKDIR /react/nextgen-client
+COPY ./package.json /react/nextgen-client
+RUN npm install
+COPY . /react/nextgen-client
+CMD [ "npm" , "start" ]

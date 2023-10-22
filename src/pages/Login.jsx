@@ -46,7 +46,7 @@ const Login = () => {
       const data = res.data;
 
       if (res.status === 200 && Object.values(data).length > 0) {
-        localStorage.setItem("authUser", res.data.token);
+        localStorage.setItem("authUser", res.data.response.token);
 
         nav("/");
       } else {

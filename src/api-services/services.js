@@ -1,7 +1,7 @@
 import axios from "axios";
 import { urls } from "./apiEndpoint";
 
-const SERVER_URL = "http://localhost:5000";
+const SERVER_URL = process.env.REACT_APP_API_KEY;
 
 // Write all API calls
 
@@ -59,11 +59,14 @@ export const getUserTeamsApi = async () => {
 };
 export const addNewTeamApi = async (teamId) => {
   try {
-    const response = await axios.get(`${SERVER_URL}${urls.ADD_NEW_TEAM_CODE}/${teamId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("authUser")}`,
-      },
-    });
+    const response = await axios.get(
+      `${SERVER_URL}${urls.ADD_NEW_TEAM_CODE}/${teamId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authUser")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     throw error;

@@ -1,11 +1,12 @@
-version: '3.8'
+version: '3.3'
 services:
-  docker-test:
-    # build:
-    #   context: .
-    #   dockerfile: Dockerfile.dev
-    # env_file:
-    #   - ./.env
-    # container_name: dockertestcont
-    # image: dokcertest:tag
-    
+ nextgen-client:
+  build:
+   context: .
+   dockerfile: Dockerfile.dev
+  ports:
+   - "3501:3501"
+  env_file:
+   - ./.env
+  container_name: nextgen-client-cont
+  image: nextgen-client-img
