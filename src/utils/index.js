@@ -359,19 +359,6 @@ export const questions_list = [
       "question": "In your representation of work tomorrow, the way your company adapts to market changes.",
       "negative": "Adaptation requires significant time and resources.",
       "positive": "Your company is flexible and can quickly adapt to changes in the market environment."
-    },
-    { id:61,
-      "type": "Present",
-      "question": "In your reality today, the organization's response to negative events or crises.",
-      "negative": "Your organization reacts to negative events with predefined procedures and strict control.",
-      "positive": "Your organization deals with negative events in a flexible and creative way, learning and adapting quickly."
-    },
-    { id:60,
-      "type": "Future",
-      "question": "In your representation of work tomorrow, the organization's response to negative events or crises.",
-      "negative": "Your organization reacts to negative events with predefined procedures and strict control.",
-      "positive": "Your organization deals with negative events in a flexible and creative way, learning and adapting quickly."
-    }
-  
+    },  
   
 ];

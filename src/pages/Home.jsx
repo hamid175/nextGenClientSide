@@ -9,6 +9,7 @@ import { Spinner } from "reactstrap";
 const Home = () => {
   const [questions, setQuestions] = useState(questions_list);
   const [loading, setLoading] = useState(false);
+
   const {
     answers,
     setAnswers,
@@ -24,7 +25,6 @@ const Home = () => {
 
   // handle answer
   const handleInputChange = (questionId, question, event) => {
-
     const ansValue = event.target.value;
 
     const arr = answers;
@@ -32,7 +32,15 @@ const Home = () => {
       type: question.type,
       value: ansValue,
     };
+
     calculateProgress(arr);
+  };
+
+  const resetRadioInputs = () => {
+    const radioInputs = document.querySelectorAll('input[type="radio"]');
+    radioInputs.forEach((input) => {
+      input.checked = false;
+    });
   };
 
   return (
@@ -149,14 +157,17 @@ const Home = () => {
           <button
             className={`primary-btn ${progress < 100 && "btn-fade"}`}
             // disabled={progress < 100 ? true : false}
-            onClick={handleSubmit}
+            onClick={() => {
+              handleSubmit();
+              resetRadioInputs();
+            }}
           >
             Submit Answers
           </button>
         ) : (
           <button
             className={`primary-btn ${progress < 100 && "btn-fade"}`}
-            // disabled={progress < 100 ? true : false}
+            disabled={progress < 100 ? true : false}
             onClick={handleSubmit}
           >
             <Spinner size="sm" className="flex-shrink-0"></Spinner>

@@ -12,6 +12,7 @@ const AuthLayout = ({ children }) => {
   const [userTeams, setUserTeams] = useState([]);
   const [progress, setProgress] = useState(0);
   const [answersList, setAnswersList] = useState([]);
+  console.log("🚀 ~ file: AuthLayout.jsx:15 ~ AuthLayout ~ answersList:", answersList)
   const [addModal, setAddModal] = useState(false);
   const [newTeam, setNewTeam] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
@@ -60,6 +61,8 @@ const AuthLayout = ({ children }) => {
     try {
       const res = await submitSurvey(payload);
 
+      setProgress(0);
+      setAnswersList([])
       toast.info(res.message);
     } catch (error) {
       console.log("ERROR", error);
