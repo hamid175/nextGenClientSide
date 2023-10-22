@@ -2,22 +2,42 @@ import React, { useState } from "react";
 import { questions_list } from "../utils";
 import { useContext } from "react";
 import { AppContext } from "../App";
+import AddNewTeam from "../components/AddNewTeam";
+import { ToastContainer } from "react-toastify";
+import { Spinner } from "reactstrap";
 
 const Home = () => {
   const [questions, setQuestions] = useState(questions_list);
-  const {answers, setAnswers, calculateProgress, progress} = useContext(AppContext);
-  
-  // Method to handle answer input
-  const handleInputChange = (questionId, event) =>{
+  const [loading, setLoading] = useState(false);
+  const {
+    answers,
+    setAnswers,
+    calculateProgress,
+    progress,
+    handleSubmit,
+    setAddModal,
+    addModal,
+    addToggle,
+    setNewTeam,
+    btnLoading,
+  } = useContext(AppContext);
+
+  // handle answer
+  const handleInputChange = (questionId, question, event) => {
+
     const ansValue = event.target.value;
 
     const arr = answers;
-    arr[questionId - 1] = ansValue;
+    arr[questionId - 1] = {
+      type: question.type,
+      value: ansValue,
+    };
     calculateProgress(arr);
-    
-  }
+  };
+
   return (
     <div className="container-xxl">
+      <ToastContainer />
       <div className="progress-detail ">
         <p className="p-0 m-0 color-grey-900">Welcome🖐</p>
         <h1 className="color-grey-900 heading">To the Survey</h1>
@@ -41,8 +61,10 @@ const Home = () => {
                       className="custom-radio-1 opacity-3 danger"
                       type="radio"
                       name={`question${question?.id}`}
-                      value={-3}
-                      onChange={(event) => handleInputChange(question?.id, event)}
+                      value={1}
+                      onChange={(event) =>
+                        handleInputChange(question?.id, question, event)
+                      }
                     />
                   </div>
                   <div className="px-2 d-flex align-items-center ">
@@ -50,8 +72,10 @@ const Home = () => {
                       className="custom-radio-2 opacity-2 danger"
                       type="radio"
                       name={`question${question?.id}`}
-                      value={-2}
-                      onChange={(event) => handleInputChange(question?.id, event)}
+                      value={2}
+                      onChange={(event) =>
+                        handleInputChange(question?.id, question, event)
+                      }
                     />
                   </div>
                   <div className="px-2 d-flex align-items-center ">
@@ -59,8 +83,10 @@ const Home = () => {
                       className="custom-radio-3 opacity-1 danger"
                       type="radio"
                       name={`question${question?.id}`}
-                      value={-1}
-                      onChange={(event) => handleInputChange(question?.id, event)}
+                      value={3}
+                      onChange={(event) =>
+                        handleInputChange(question?.id, question, event)
+                      }
                     />
                   </div>
                   <div className="px-2 d-flex align-items-center  ">
@@ -68,8 +94,10 @@ const Home = () => {
                       className="custom-radio-4 opacity"
                       type="radio"
                       name={`question${question?.id}`}
-                      value={0}
-                      onChange={(event) => handleInputChange(question?.id, event)}
+                      value={4}
+                      onChange={(event) =>
+                        handleInputChange(question?.id, question, event)
+                      }
                     />
                   </div>
                   <div className="px-2 d-flex align-items-center ">
@@ -77,8 +105,10 @@ const Home = () => {
                       className="custom-radio-3 opacity-1"
                       type="radio"
                       name={`question${question?.id}`}
-                      value={1}
-                      onChange={(event) => handleInputChange(question?.id, event)}
+                      value={5}
+                      onChange={(event) =>
+                        handleInputChange(question?.id, question, event)
+                      }
                     />
                   </div>
                   <div className="px-2 d-flex align-items-center  ">
@@ -86,8 +116,10 @@ const Home = () => {
                       className="custom-radio-2 opacity-2"
                       type="radio"
                       name={`question${question?.id}`}
-                      value={2}
-                      onChange={(event) => handleInputChange(question?.id, event)}
+                      value={6}
+                      onChange={(event) =>
+                        handleInputChange(question?.id, question, event)
+                      }
                     />
                   </div>
                   <div className="px-2 d-flex align-items-center ">
@@ -95,8 +127,10 @@ const Home = () => {
                       className="custom-radio-1 radio-input opacity-3"
                       type="radio"
                       name={`question${question?.id}`}
-                      value={3}
-                      onChange={(event) => handleInputChange(question?.id, event)}
+                      value={7}
+                      onChange={(event) =>
+                        handleInputChange(question?.id, question, event)
+                      }
                     />
                   </div>
                 </div>
@@ -111,10 +145,32 @@ const Home = () => {
       </div>
 
       <div className="d-flex justify-content-center py-4">
-        <button className={`primary-btn ${progress < 100 && 'btn-fade'}`}
-        disabled={progress < 100 ? true : false}
-        >Submit Answers</button>
+        {!btnLoading ? (
+          <button
+            className={`primary-btn ${progress < 100 && "btn-fade"}`}
+            // disabled={progress < 100 ? true : false}
+            onClick={handleSubmit}
+          >
+            Submit Answers
+          </button>
+        ) : (
+          <button
+            className={`primary-btn ${progress < 100 && "btn-fade"}`}
+            // disabled={progress < 100 ? true : false}
+            onClick={handleSubmit}
+          >
+            <Spinner size="sm" className="flex-shrink-0"></Spinner>
+          </button>
+        )}
       </div>
+
+      <AddNewTeam
+        toggle={addToggle}
+        modal={addModal}
+        loading={loading}
+        setLoading={setLoading}
+        setNewTeam={setNewTeam}
+      />
     </div>
   );
 };

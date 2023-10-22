@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom/dist";
 
 import * as Yup from "yup";
@@ -15,9 +15,13 @@ import {
   Label,
   Row,
   Button,
+  Spinner,
 } from "reactstrap";
+import { userLogin } from "../api-services/services";
+import { ToastContainer, toast } from "react-toastify";
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const nav = useNavigate();
 
   const initialValues = {
@@ -33,9 +37,35 @@ const Login = () => {
       .required("Password is required.")
       .min(8, "Password must be at least 8 characters."),
   });
+  const handleLogin = async (values) => {
+    const payload = values;
+    delete payload?.["password-input"];
+    setLoading(true);
+    try {
+      const res = await userLogin(payload);
+      const data = res.data;
+
+      if (res.status === 200 && Object.values(data).length > 0) {
+        localStorage.setItem("authUser", res.data.token);
+
+        nav("/");
+      } else {
+        toast.error("User not exist!");
+      }
+    } catch (error) {
+      // Handle any errors here
+      if (error.response.status === 400) {
+        toast.error("Invalid Password");
+      }
+      console.error("Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <React.Fragment>
+      <ToastContainer />
       <div className="w-100 vh-100 d-flex ">
         <div className="w-50 vh-100 login-poster"></div>
         <div className="w-50 d-flex align-items-center justify-content-center overflow-y-auto">
@@ -58,86 +88,98 @@ const Login = () => {
                   initialValues={initialValues}
                   validationSchema={validationSchema}
                   enableReinitialize
-                  // onSubmit={(e, values) => {
-
-                  //   // same s hape as initial values
-                  //   console.log(values);
-                  // }}
+                  onSubmit={(values) => handleLogin(values)}
                 >
-                  {({ values, errors }) => (
-                    <Form action="#">
-                      <div className="mb-3">
-                        <Label
-                          htmlFor="email"
-                          className="form-label input-label"
-                        >
-                          Email
-                        </Label>
-                        <Field
-                          type="text"
-                          className="form-control input-field"
-                          id="email"
-                          name="email"
-                          placeholder="Enter username"
-                        />
-                        <ErrorMessage
-                          name="email"
-                          component="div"
-                          className="text-danger error"
-                        />
-                      </div>
-
-                      <div className="mb-3">
-                        <Label
-                          className="form-label input-label"
-                          htmlFor="password-input"
-                        >
-                          Password
-                        </Label>
-                        <div className="position-relative auth-pass-inputgroup mb-3">
-                          <Field
-                            type="password"
-                            className="form-control pe-5 password-input input-field"
-                            placeholder="Enter password"
-                            id="password-input"
-                            name="password-input"
-                          />
-                          <button
-                            className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
-                            type="button"
-                            id="password-addon"
+                  {({ values, errors }) => {
+                    return (
+                      <Form action="#">
+                        <div className="mb-3">
+                          <Label
+                            htmlFor="email"
+                            className="form-label input-label"
                           >
-                            <i className="ri-eye-fill align-middle"></i>
-                          </button>
+                            Email
+                          </Label>
+                          <Field
+                            type="text"
+                            className="form-control input-field"
+                            id="email"
+                            name="email"
+                            placeholder="Enter username"
+                          />
+                          <ErrorMessage
+                            name="email"
+                            component="div"
+                            className="text-danger error"
+                          />
                         </div>
-                        <ErrorMessage
-                          name="password-input"
-                          component="div"
-                          className="text-danger"
-                        />
-                      </div>
-                      <div className="mb-3 d-flex gap-1 align-items-center">
-                        <input type="checkbox" />
-                        <Label className="m-0 text-normal">Remember Me</Label>
-                        
-                      </div>
 
+                        <div className="mb-3">
+                          <Label
+                            className="form-label input-label"
+                            htmlFor="password"
+                          >
+                            Password
+                          </Label>
+                          <div className="position-relative auth-pass-inputgroup mb-3">
+                            <Field
+                              type="password"
+                              className="form-control pe-5 password-input input-field"
+                              placeholder="Enter password"
+                              id="password"
+                              name="password"
+                            />
+                            <button
+                              className="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
+                              type="button"
+                              id="password-addon"
+                            >
+                              <i className="ri-eye-fill align-middle"></i>
+                            </button>
+                            <ErrorMessage
+                              name="password"
+                              component="div"
+                              className="text-danger error"
+                            />
+                          </div>
+                        </div>
 
-                      <div className="mt-4">
-                        <Button
-                          className="btn primary-btn w-100"
-                          type="submit"
-                          onClick={() => nav("/home")}
-                        >
-                          Login
-                        </Button>
-                      </div>
-                    </Form>
-                  )}
+                        <div className="mb-3 d-flex gap-1 align-items-center">
+                          <input type="checkbox" />
+                          <Label className="m-0 text-normal">Remember Me</Label>
+                        </div>
+
+                        <div className="mt-4">
+                          {!loading ? (
+                            <Button
+                              className="btn primary-btn w-100"
+                              type="submit"
+                              // onClick={() => nav("/home")}
+                            >
+                              Login
+                            </Button>
+                          ) : (
+                            <button
+                              type="submit"
+                              className="btn primary-btn w-100"
+                              disabled
+                            >
+                              <Spinner
+                                size="sm"
+                                className="flex-shrink-0"
+                              ></Spinner>
+                            </button>
+                          )}
+                        </div>
+                      </Form>
+                    );
+                  }}
                 </Formik>
               </div>
-              <p className="login-footer">Don’t have an account?<Link to={"/register"}>Create an account</Link></p>
-
+              <p className="login-footer">
+                Don’t have an account?
+                <Link to={"/register"}>Create an account</Link>
+              </p>
             </CardBody>
           </Card>
         </div>
@@ -145,6 +187,5 @@ const Login = () => {
     </React.Fragment>
   );
 };
-
 
 export default Login;

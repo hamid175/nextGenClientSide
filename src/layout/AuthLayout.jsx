@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import Navbar from "../components/Navbar";
 
 const AuthLayout = ({ children }) => {
-  const [authToken, setAuthToken] = useState(true);
+  const [authToken, setAuthToken] = useState(localStorage.getItem('authUser'));
 
   if (!authToken) {
-    return <Navigate to={"/"} />;
+    return <Navigate to={"/login"} />;
   }
 
   return (
