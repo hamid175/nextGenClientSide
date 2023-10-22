@@ -1,9 +1,14 @@
-import React from "react";
 import { nonAuthProtectedRoutes, authProtectedRoutes } from "./allRoutes";
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "../layout/AuthLayout";
+import React, { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { getUserTeamsApi, submitSurvey } from "../api-services/services";
+export const AppContext = createContext();
+
 
 const Index = () => {
+
   return (
     <>
       <Routes>
@@ -13,15 +18,17 @@ const Index = () => {
       </Routes>
 
       {/* auth protected routes */}
-      <Routes>
-        {authProtectedRoutes?.map((route, idx) => (
-          <Route
-            key={idx}
-            path={route?.path}
-            element={<AuthLayout>{route?.component}</AuthLayout>}
-          />
-        ))}
-      </Routes>
+
+      
+        <Routes>
+          {authProtectedRoutes?.map((route, idx) => (
+            <Route
+              key={idx}
+              path={route?.path}
+              element={<AuthLayout>{route?.component}</AuthLayout>}
+            />
+          ))}
+        </Routes>
     </>
   );
 };

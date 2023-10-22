@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { questions_list } from "../utils";
 import { useContext } from "react";
-import { AppContext } from "../App";
+import { AppContext } from "../layout/AuthLayout";
 import AddNewTeam from "../components/AddNewTeam";
 import { ToastContainer } from "react-toastify";
 import { Spinner } from "reactstrap";

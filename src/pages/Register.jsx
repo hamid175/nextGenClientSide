@@ -52,7 +52,6 @@ const Register = () => {
         toast.success(res.message);
         nav("/login");
       } else {
-        console.log('invalid')
         toast.error(res.message);
       }
     } catch (error) {

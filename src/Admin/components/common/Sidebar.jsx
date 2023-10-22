@@ -18,7 +18,6 @@ const Sidebar = () => {
   const [menuList, setMenuList] = useState(initial);
 
   const location = useLocation();
-  console.log("location", location)
 
 
   return (

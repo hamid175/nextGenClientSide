@@ -4,9 +4,9 @@ import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import { Link } from "react-router-dom";
 import { Input } from "reactstrap";
-import { AppContext } from "../App";
 import { useContext } from "react";
 import { calculateTimeRemaining, formatTime } from "../utils/conversions";
+import { AppContext } from "../layout/AuthLayout";
 
 const Navbar = () => {
   const data = useContext(AppContext);
