@@ -4,12 +4,9 @@ import { LuCopy } from "react-icons/lu";
 import {
   Button,
   Col,
-  Input,
   Label,
   Modal,
   ModalBody,
-  ModalFooter,
-  ModalHeader,
 } from "reactstrap";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_green.css";
@@ -33,10 +30,7 @@ const DateModal = ({ modal, toggle }) => {
                   minDate: "today",
                   dateFormat: "d M, Y",
                 }}
-                // value={date}
-                // onChange={([date]) => {
-                //     setDate({ date });
-                // }}
+              
               />
             </div>
           </Col>

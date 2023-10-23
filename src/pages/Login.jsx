@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom/dist";
+import { Link, useLocation, useNavigate } from "react-router-dom/dist";
 
 import * as Yup from "yup";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -23,6 +23,8 @@ import { ToastContainer, toast } from "react-toastify";
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const nav = useNavigate();
+  const location = useLocation();
+  console.log("🚀 ~ file: Login.jsx:25 ~ Login ~ location:", location)
 
   const initialValues = {
     email: "",
@@ -47,6 +49,7 @@ const Login = () => {
 
       if (res.status === 200 && Object.values(data).length > 0) {
         localStorage.setItem("authUser", res.data.response.token);
+        localStorage.setItem("user", JSON.stringify(res.data.response.user));
 
         nav("/");
       } else {

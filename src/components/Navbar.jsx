@@ -10,6 +10,7 @@ import { AppContext } from "../layout/AuthLayout";
 
 const Navbar = () => {
   const data = useContext(AppContext);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
   const { setSelectedTeam, selectedTeam } = useContext(AppContext);
 
   const [timeRemaining, setTimeRemaining] = useState(
@@ -19,35 +20,29 @@ const Navbar = () => {
 
   useEffect(() => {
     if (timerIntervalId) {
-      clearInterval(timerIntervalId); // Clear the previous interval
+      clearInterval(timerIntervalId);
     }
     let timerInterval;
-
     if (selectedTeam?.deadline) {
       timerInterval = setInterval(() => {
         setTimeRemaining(calculateTimeRemaining(selectedTeam?.deadline));
       }, 1000);
-
       setTimerIntervalId(timerInterval);
     }
-
     return () => {
       clearInterval(timerInterval);
     };
   }, [selectedTeam]);
 
-
-
   const handleLogout = () => {
     localStorage.clear();
-  }
+  };
 
   return (
     <div className=" py-3 px-5">
       <div className="d-flex">
-        {/* admin name */}
         <div className="pe-4 border-end d-flex flex-column justify-content-start align-items-start">
-          <h6 className="username m-0">Jalal Ghani</h6>
+          <h6 className="username m-0">{user.email}</h6>
           <Input
             id="exampleSelect"
             bsSize="sm"
@@ -55,6 +50,7 @@ const Navbar = () => {
             className="border-0"
             name="select"
             type="select"
+            defaultValue={selectedTeam.code}
             onChange={(e) => {
               const val = JSON.parse(e.target.value);
               setSelectedTeam(val);
@@ -83,7 +79,7 @@ const Navbar = () => {
             // }}
           />
         </div>
-        <div className="px-4 border-end d-flex align-items-center">
+        <div className="px-3 border-end d-flex align-items-center">
           <div className="time-frame">
             <p>Time Remaining</p>
             <span>{!timeRemaining ? "N/A" : formatTime(timeRemaining)}</span>

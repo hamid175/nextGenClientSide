@@ -1,6 +1,7 @@
 import Home from "../pages/Home"
 import Login from "../pages/Login"
 import Register from "../pages/Register"
+import SurveyCompleted from "../pages/SurveyCompleted"
 
 // User routes
 export const nonAuthProtectedRoutes = [
@@ -10,4 +11,5 @@ export const nonAuthProtectedRoutes = [
 
 export const authProtectedRoutes = [
     {path: "", component: <Home/>},
+    {path: "/survey-submitted", component: <SurveyCompleted/>},
 ]

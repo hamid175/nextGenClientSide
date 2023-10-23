@@ -46,7 +46,7 @@ code {
     background-color: var(--btn-primary-hover) !important;
   }
 }
-.btn-fade{
+.btn-fade {
   opacity: 60%;
 }
 .success-btn {
@@ -57,6 +57,21 @@ code {
   border-radius: 4px !important;
   padding: 8px 12px !important;
 }
+
+.primary-btn {
+  background-color: var(--btn-primary) !important;
+  border: none !important;
+  padding: 8px 16px !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  line-height: 21px !important;
+  border-radius: 4px !important;
+  color: rgba(255, 255, 255, 1) !important;
+  &:hover {
+    background-color: var(--btn-primary-hover) !important;
+  }
+}
+
 .success1-btn {
   font-weight: 600 !important;
   font-size: 10px !important;
@@ -142,6 +157,14 @@ code {
 .wrapper {
   background-color: var(--bg-light);
   height: calc(100vh - 90px);
+  overflow: auto;
+}
+.full-wrapper {
+  background-color: var(--bg-light);
+  height: calc(100vh);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
   overflow: auto;
 }
 .time-card {
@@ -298,6 +321,7 @@ code {
   padding: 8px 16px 8px 16px;
   border-radius: 4px;
   background-color: rgba(224, 0, 0, 0.08);
+  min-width: 190px;
   > p {
     margin: 0;
     font-weight: 400;
@@ -413,7 +437,7 @@ input[type="radio"]:checked {
 }
 
 .danger:checked {
-  background-color: #F32013 !important;
+  background-color: #f32013 !important;
 }
 .opacity-3:checked {
   opacity: 60%;

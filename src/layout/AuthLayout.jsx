@@ -1,22 +1,29 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Wrapper from "../components/Wrapper";
 import Navbar from "../components/Navbar";
 import React, { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getUserTeamsApi, submitSurvey } from "../api-services/services";
+import {
+  getUserTeamsApi,
+  submitSurvey,
+  switchTeam,
+} from "../api-services/services";
 export const AppContext = createContext();
 
-const AuthLayout = ({ children }) => {
+const AuthLayout = ({ path, children }) => {
+  console.log("🚀 ~ file: AuthLayout.jsx:10 ~ AuthLayout ~ path:", path);
   const [authToken, setAuthToken] = useState(localStorage.getItem("authUser"));
 
+  const nav = useNavigate();
   const [userTeams, setUserTeams] = useState([]);
   const [progress, setProgress] = useState(0);
   const [answersList, setAnswersList] = useState([]);
-  console.log("🚀 ~ file: AuthLayout.jsx:15 ~ AuthLayout ~ answersList:", answersList)
   const [addModal, setAddModal] = useState(false);
   const [newTeam, setNewTeam] = useState(null);
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [isSubmitted, setIsSubmitted] = useState(null);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const addToggle = () => setAddModal(!addModal);
 
@@ -30,13 +37,44 @@ const AuthLayout = ({ children }) => {
     getUserTeams();
   }, [newTeam]);
 
+  useEffect(() => {
+    if (selectedTeam) {
+      console.log("🚀 ~ file: AuthLayout.jsx:42 ~ useEffect ~ selectedTeam:", selectedTeam)
+      switchUserTeam(selectedTeam.code);
+    }
+  }, [selectedTeam]);
+
   const getUserTeams = async () => {
     try {
       const res = await getUserTeamsApi();
       setUserTeams(res.data.teams);
       setSelectedTeam(res.data.teams[0]);
     } catch (error) {
-      console.log("ERROR:", error);
+      if (error.response.status === 401) {
+        toast.error("Unauhtorized: Login again");
+        nav("/login");
+      }
+    }
+  };
+  const switchUserTeam = async (teamCode) => {
+    setIsSubmitted(false);
+
+    setLoading(true);
+    try {
+      const res = await switchTeam(teamCode);
+
+      if (res?.data?.isAnswered === true) {
+        setIsSubmitted(true);
+      } else {
+        setIsSubmitted(false);
+      }
+    } catch (error) {
+      if (error.response.status === 401) {
+        toast.error("Unauhtorized: Login again");
+        nav("/login");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -62,10 +100,18 @@ const AuthLayout = ({ children }) => {
       const res = await submitSurvey(payload);
 
       setProgress(0);
-      setAnswersList([])
-      toast.info(res.message);
+      setAnswersList([]);
+      if (res.status === 200) {
+        switchUserTeam(selectedTeam.code);
+        nav("/survey-submitted");
+      } else {
+        toast.info(res.message);
+      }
     } catch (error) {
-      console.log("ERROR", error);
+      if (error.response.status === 401) {
+        toast.error("Unauhtorized: Login again");
+        nav("/login");
+      }
     } finally {
       setBtnLoading(false);
     }
@@ -96,12 +142,15 @@ const AuthLayout = ({ children }) => {
           selectedTeam: selectedTeam,
           setSelectedTeam: setSelectedTeam,
           btnLoading: btnLoading,
+          isSubmitted: isSubmitted,
+          loading: loading,
         }}
       >
         <div className="d-flex w-100">
           <div className="col-12 ">
-            <Navbar />
-            <Wrapper>{children}</Wrapper>
+            {path !== "/survey-submitted" && <Navbar />}
+            {/* <Navbar /> */}
+            <Wrapper path={path}>{children}</Wrapper>
           </div>
         </div>
       </AppContext.Provider>

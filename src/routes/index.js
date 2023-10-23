@@ -17,15 +17,13 @@ const Index = () => {
         ))}
       </Routes>
 
-      {/* auth protected routes */}
-
-      
+      {/* auth protected routes */}      
         <Routes>
           {authProtectedRoutes?.map((route, idx) => (
             <Route
               key={idx}
               path={route?.path}
-              element={<AuthLayout>{route?.component}</AuthLayout>}
+              element={<AuthLayout path={route?.path}>{route?.component}</AuthLayout>}
             />
           ))}
         </Routes>
